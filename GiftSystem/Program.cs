@@ -1,4 +1,8 @@
+using GiftSystem.DAL;
 using GiftSystem.Data;
+using GiftSystem.Data.Models;
+using GiftSystem.Infrastructure;
+using GiftSystem.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,11 +11,13 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder
-    .Services.AddDbContext<ApplicationDbContext>(options =>
+    .Services.AddDbContext<GiftSystemDbContext>(options =>
         options.UseSqlServer(connectionString));
 
 builder
-    .Services.AddDatabaseDeveloperPageExceptionFilter();
+    .Services.AddDatabaseDeveloperPageExceptionFilter()
+    .AddTransient<ITransactionRepository, TransactionRepository>()
+    .AddTransient<ITransactionService, TransactionService>();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options =>
     {
@@ -20,7 +26,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
         options.Password.RequireLowercase = false;
         options.Password.RequireNonAlphanumeric = false;
     })
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+    .AddEntityFrameworkStores<GiftSystemDbContext>();
 
 builder.Services.AddControllersWithViews();
 
@@ -36,7 +42,9 @@ else
     app.UseHsts();
 }
 
-app.UseHttpsRedirection()
+app
+   .PrepareDatabase()
+   .UseHttpsRedirection()
    .UseStaticFiles()
    .UseRouting()
    .UseAuthentication()
