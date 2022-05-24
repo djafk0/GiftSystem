@@ -22,5 +22,8 @@
         [Required]
         [MaxLength(NameMaxLength)]
         public string SenderName { get; init; }
+
+        [Required]
+        public DateTime Date { get; init; }
     }
 }

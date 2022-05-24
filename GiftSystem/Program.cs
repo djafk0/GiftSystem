@@ -4,6 +4,7 @@ using GiftSystem.Data.Models;
 using GiftSystem.Infrastructure;
 using GiftSystem.Services;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +18,7 @@ builder.Services
 builder.Services
     .AddDatabaseDeveloperPageExceptionFilter()
     .AddTransient<ITransactionRepository, TransactionRepository>()
+    .AddTransient<IUserRepository, UserRepository>()
     .AddTransient<ITransactionService, TransactionService>()
     .AddRazorPages()
     .AddRazorRuntimeCompilation();
@@ -31,7 +33,9 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<GiftSystemDbContext>();
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews((options
+    => options.Filters
+        .Add<AutoValidateAntiforgeryTokenAttribute>()));
 
 var app = builder.Build();
 

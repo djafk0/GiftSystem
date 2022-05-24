@@ -1,0 +1,31 @@
+﻿@model IEnumerable<TransactionServiceModel>
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<table class="table-sm table-responsive" style="margin: auto;">
+    <thead>
+        <tr>
+            <th scope="col" class="text-center text-white">Id</th>
+            <th scope="col" class="text-center text-white">Amount</th>
+            <th scope="col" class="text-center text-white">Description</th>
+            <th scope="col" class="text-center text-white">Sender Name</th>
+            <th scope="col" class="text-center text-white">Recepient Name</th>
+            <th scope="col" class="text-center text-white">Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var row in Model)
+        {
+            <tr id="@row.Id">
+                <td scope="col" class="text-center h4 text-white">@row.Id</td>
+                <td scope="col" class="text-center h4">@row.Amount</td>
+                <td scope="col" class="text-center h4">@row.Description</td>
+                <td scope="col" class="text-center h4">@row.SenderName</td>
+                <td scope="col" class="text-center h4">@row.RecepientName</td>
+                <td scope="col" class="text-center h4">@row.Date</td>
+            </tr>
+        }
+    </tbody>
+</table>

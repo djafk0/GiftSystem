@@ -1,6 +1,9 @@
 ﻿namespace GiftSystem.Controllers
 {
+    using System.Security.Claims;
+    using GiftSystem.Models;
     using GiftSystem.Services;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
     public class DashboardController : Controller
@@ -10,11 +13,34 @@
         public DashboardController(ITransactionService transactions)
             => this.transactions = transactions;
 
-        public IActionResult Give()
+        [Authorize]
+        public IActionResult All()
         {
-            this.transactions.SendMoney();
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            return RedirectToAction("Index", "Home");
+            var transactions = this.transactions.AllTransacations(userId);
+
+            return View(transactions);
+        }
+
+        [Authorize]
+        public IActionResult Send()
+            => View();
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult Send(TransactionFormModel transaction)
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var isSent = this.transactions.SendGift(transaction, userId);
+
+            if (!isSent)
+            {
+                return BadRequest();
+            }
+
+            return Ok();
         }
     }
 }
