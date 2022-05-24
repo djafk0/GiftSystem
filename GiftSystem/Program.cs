@@ -20,6 +20,7 @@ builder.Services
     .AddTransient<ITransactionRepository, TransactionRepository>()
     .AddTransient<IUserRepository, UserRepository>()
     .AddTransient<ITransactionService, TransactionService>()
+    .AddTransient<IUserService, UserService>()
     .AddRazorPages()
     .AddRazorRuntimeCompilation();
 

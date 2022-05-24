@@ -1,7 +1,9 @@
 ﻿namespace GiftSystem.DAL
 {
+    using System.Collections.Generic;
     using GiftSystem.Data;
     using GiftSystem.Data.Models;
+    using GiftSystem.Services;
 
     public class UserRepository : IUserRepository
     {
@@ -16,5 +18,8 @@
 
         public ApplicationUser GetUserById(string userId)
             => this.context.Users.Find(userId);
+
+        public IEnumerable<ApplicationUser> GetAllUsers()
+            => this.context.Users.ToList();
     }
 }

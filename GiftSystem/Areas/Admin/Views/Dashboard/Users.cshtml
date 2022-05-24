@@ -1,0 +1,23 @@
+﻿@model IEnumerable<UserServiceModel>
+
+@{
+    ViewData["Title"] = "Users";
+}
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col" class="text-center">Email</th>
+            <th scope="col" class="text-center">Amount</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var row in Model)
+        {
+            <tr>
+                <td scope="col" class="text-center h4">@row.Email</td>
+                <td scope="col" class="text-center h4">@row.Credits</td>
+            </tr>
+        }
+    </tbody>
+</table>
