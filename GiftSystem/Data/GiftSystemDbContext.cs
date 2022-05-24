@@ -4,7 +4,7 @@
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
 
-    public class GiftSystemDbContext : IdentityDbContext
+    public class GiftSystemDbContext : IdentityDbContext<ApplicationUser>
     {
         public GiftSystemDbContext(DbContextOptions<GiftSystemDbContext> options)
             : base(options)

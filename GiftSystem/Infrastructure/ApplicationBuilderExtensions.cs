@@ -53,7 +53,8 @@
                 {
                     Email = admin,
                     UserName = admin,
-                    Credits = decimal.MaxValue,
+                    Name = role.Name,
+                    Credits = 999.99M,
                     PhoneNumber = "+359999999999"
                 };
 

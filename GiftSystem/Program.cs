@@ -10,22 +10,25 @@ var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-builder
-    .Services.AddDbContext<GiftSystemDbContext>(options =>
+builder.Services
+    .AddDbContext<GiftSystemDbContext>(options =>
         options.UseSqlServer(connectionString));
 
-builder
-    .Services.AddDatabaseDeveloperPageExceptionFilter()
+builder.Services
+    .AddDatabaseDeveloperPageExceptionFilter()
     .AddTransient<ITransactionRepository, TransactionRepository>()
-    .AddTransient<ITransactionService, TransactionService>();
+    .AddTransient<ITransactionService, TransactionService>()
+    .AddRazorPages()
+    .AddRazorRuntimeCompilation();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
     {
         options.Password.RequireDigit = false;
         options.Password.RequireUppercase = false;
         options.Password.RequireLowercase = false;
         options.Password.RequireNonAlphanumeric = false;
     })
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<GiftSystemDbContext>();
 
 builder.Services.AddControllersWithViews();

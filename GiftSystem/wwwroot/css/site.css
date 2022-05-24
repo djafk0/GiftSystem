@@ -16,3 +16,9 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.form-horizontal {
+    display: block;
+    width: 30%;
+    margin: 5px auto;
+}
