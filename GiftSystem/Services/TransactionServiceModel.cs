@@ -13,5 +13,7 @@
         public string SenderName { get; set; }
 
         public DateTime Date { get; set; }
+
+        public bool IsPositive { get; set; }
     }
 }

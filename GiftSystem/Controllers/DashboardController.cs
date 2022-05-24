@@ -18,7 +18,7 @@
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var transactions = this.transactions.AllTransacations(userId);
+            var transactions = this.transactions.AllTransacationsByUser(userId);
 
             return View(transactions);
         }
@@ -31,6 +31,11 @@
         [HttpPost]
         public IActionResult Send(TransactionFormModel transaction)
         {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var isSent = this.transactions.SendGift(transaction, userId);

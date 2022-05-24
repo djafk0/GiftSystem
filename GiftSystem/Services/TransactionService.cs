@@ -18,30 +18,42 @@
         public IEnumerable<TransactionServiceModel> AllTransacations(string userId)
         {
             var currentUserName = this.users.GetUserById(userId).Name;
+            
+            var transactions = this.transactions
+                    .GetTransactions()
+                    .Select(t => new TransactionServiceModel
+                    {
+                        Id = t.Id,
+                        Amount = t.Amount,
+                        Description = t.Description,
+                        SenderName = t.SenderName,
+                        RecepientName = t.RecepientName,
+                        Date = t.Date,
+                        IsPositive = t.RecepientName == currentUserName
+                    })
+                    .OrderByDescending(t => t.Id)
+                    .ToList();
 
-            var transactions = this.transactions.GetTransactions()
-                   .Where(t => t.SenderName == currentUserName ||
-                       t.RecepientName == currentUserName)
-                   .Select(t => new TransactionServiceModel
-                   {
-                       Id = t.Id,
-                       Amount = t.Amount,
-                       Description = t.Description,
-                       SenderName = t.SenderName,
-                       RecepientName = t.RecepientName,
-                       Date = t.Date
-                   })
-                   .OrderByDescending(t => t.Id)
-                   .ToList();
+            return transactions;
+        }
+
+        public IEnumerable<TransactionServiceModel> AllTransacationsByUser(string userId)
+        {
+            var currentUserName = this.users.GetUserById(userId).Name;
+
+            var transactions = AllTransacations(userId)
+                .Where(t => t.SenderName == currentUserName ||
+                    t.RecepientName == currentUserName)
+                .ToList();
 
             return transactions;
         }
 
         public bool SendGift(TransactionFormModel model, string userId)
         {
-            var user = this.users.GetUserById(userId);
+            var currentUser = this.users.GetUserById(userId);
 
-            if (user.Credits < model.Amount)
+            if (currentUser.Credits < model.Amount)
             {
                 return false;
             }
@@ -50,15 +62,15 @@
 
             recepient.Credits += model.Amount;
 
-            user.Credits -= model.Amount;
+            currentUser.Credits -= model.Amount;
 
             var transaction = new Transaction
             {
                 Amount = model.Amount,
                 Description = model.Description,
                 RecepientName = recepient.Name,
-                SenderName = user.Name,
-                Date = DateTime.UtcNow,
+                SenderName = currentUser.Name,
+                Date = DateTime.UtcNow.ToLocalTime(),
             };
 
             this.transactions.CreateTransaction(transaction);

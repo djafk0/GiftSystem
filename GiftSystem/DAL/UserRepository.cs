@@ -15,7 +15,6 @@
                 .FirstOrDefault(u => u.PhoneNumber == phoneNumber);
 
         public ApplicationUser GetUserById(string userId)
-            => this.context.Users
-                .FirstOrDefault(u => u.Id == userId);
+            => this.context.Users.Find(userId);
     }
 }
