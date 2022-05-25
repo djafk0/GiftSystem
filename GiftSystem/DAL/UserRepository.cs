@@ -3,7 +3,6 @@
     using System.Collections.Generic;
     using GiftSystem.Data;
     using GiftSystem.Data.Models;
-    using GiftSystem.Services;
 
     public class UserRepository : IUserRepository
     {

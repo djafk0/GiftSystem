@@ -53,12 +53,13 @@
         {
             var currentUser = this.users.GetUserById(userId);
 
-            if (currentUser.Credits < model.Amount)
+            var recepient = this.users.GetUserByPhoneNumber(model.PhoneNumber);
+
+            if (currentUser.Credits < model.Amount || currentUser == recepient)
             {
                 return false;
             }
 
-            var recepient = this.users.GetUserByPhoneNumber(model.PhoneNumber);
 
             recepient.Credits += model.Amount;
 

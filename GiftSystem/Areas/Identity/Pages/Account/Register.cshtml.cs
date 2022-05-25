@@ -1,6 +1,7 @@
 ﻿namespace GiftSystem.Areas.Identity.Pages.Account
 {
     using System.ComponentModel.DataAnnotations;
+    using GiftSystem.DAL;
     using GiftSystem.Data.Models;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -10,13 +11,15 @@
 
     public class RegisterModel : PageModel
     {
+        private readonly IUserRepository users;
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly UserManager<ApplicationUser> userManager;
 
-        public RegisterModel(
+        public RegisterModel(IUserRepository users,
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager)
         {
+            this.users = users;
             this.userManager = userManager;
             this.signInManager = signInManager;
         }
@@ -59,6 +62,13 @@
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
+
+            var phoneNumberExists = this.users.GetUserByPhoneNumber(Input.PhoneNumber);
+
+            if (phoneNumberExists != null)
+            {
+                ModelState.AddModelError(string.Empty, "Phone number already exists.");
+            }
 
             if (ModelState.IsValid)
             {
