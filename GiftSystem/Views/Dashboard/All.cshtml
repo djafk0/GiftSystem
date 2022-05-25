@@ -1,8 +1,48 @@
 ﻿@model IEnumerable<TransactionServiceModel>
 
+@inject IUserRepository users
+
 @{
     ViewData["Title"] = "Dashboard";
+
+    var user = this.users.GetUserById(User.Id());
+
 }
+
+<div class="text-center">
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalLive">
+        Send Gift
+    </button>
+</div>
+
+<div class="modal fade" id="exampleModalLive" tabindex="-1" aria-labelledby="exampleModalLiveLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLiveLabel">New Gift</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-4 text-center needs-validation" novalidate>
+                    <label class="form-label">Phone Number<span class="text-danger h5"> *</span></label>
+                    <input class="form-control" id="phoneNumber" required>
+                </div>
+                <div class="mb-4 text-center needs-validation" novalidate>
+                    <label class="form-label">Amount<span class="text-danger h5"> *</span></label>
+                    <input class="form-control" id="amount" required>
+                </div>
+                <div class="mb-4 text-center">
+                    <label class="form-label">Description</label>
+                    <input class="form-control" id="description">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button onclick="sendGift()" type="button" class="btn btn-primary">Send</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <table class="table table-striped">
     <thead>
@@ -18,12 +58,39 @@
         @foreach (var row in Model)
         {
             <tr id="@row.Id">
-                <td scope="col" class="text-center h4">@row.Date</td>
+                <td scope="col" class="text-center">@row.Date</td>
                 <td scope="col" class="text-center">@row.Description</td>
-                <td scope="col" class="text-center h4">@row.SenderName</td>
-                <td scope="col" class="text-center h4">@row.RecepientName</td>
-                <td scope="col" class="text-center h4@(row.IsPositive == true ? " text-success" : " text-danger")">@(row.IsPositive == true ? "+" : "-")@row.Amount</td>
+                <td scope="col" class="text-center">@row.SenderName</td>
+                <td scope="col" class="text-center">@row.RecepientName</td>
+                <td scope="col" class="text-center@(row.IsPositive == true ? " text-success" : " text-danger")">@(row.IsPositive == true ? "+" : "-")@row.Amount</td>
             </tr>
         }
     </tbody>
 </table>
+
+<script type="text/javascript">
+    function sendGift() {
+        let phoneNumber = document.getElementById("phoneNumber");
+        let amount = document.getElementById("amount");
+        let description = document.getElementById("description");
+
+        let model = {
+            Amount: parseFloat(amount.value),
+            Description: description.value,
+            PhoneNumber: phoneNumber.value
+        };
+
+        $.ajax({
+            type: "GET",
+            url: "/Dashboard/Send",
+            data: model,
+            success: function(){
+                alert("Successfully sent!")
+                window.location.href = "/Dashboard/All"
+            },
+            error: function(err){
+                alert("Phone number is incorrect or you dont have enough credits.")
+            }
+        })
+    }
+</script>

@@ -8,15 +8,19 @@
     <thead>
         <tr>
             <th scope="col" class="text-center">Email</th>
-            <th scope="col" class="text-center">Amount</th>
+            <th scope="col" class="text-center">Credits</th>
+            <th scope="col" class="text-center">PhoneNumber</th>
+            <th scope="col" class="text-center">Name</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var row in Model)
         {
             <tr>
-                <td scope="col" class="text-center h4">@row.Email</td>
-                <td scope="col" class="text-center h4">@row.Credits</td>
+                <td scope="col" class="text-center">@row.Email</td>
+                <td scope="col" class="text-center">@row.Credits</td>
+                <td scope="col" class="text-center">@row.PhoneNumber</td>
+                <td scope="col" class="text-center">@row.Name</td>
             </tr>
         }
     </tbody>

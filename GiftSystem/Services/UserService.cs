@@ -16,7 +16,9 @@
                 .Select(u => new UserServiceModel
                 {
                     Credits = u.Credits,
-                    Email = u.Email
+                    Email = u.Email,
+                    PhoneNumber = u.PhoneNumber,
+                    Name = u.Name
                 })
                 .ToList();
     }

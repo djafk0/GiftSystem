@@ -46,6 +46,15 @@
                     t.RecepientName == currentUserName)
                 .ToList();
 
+            foreach (var transaction in transactions)
+            {
+                transaction.SenderName = currentUserName == transaction.SenderName 
+                    ? string.Empty : transaction.SenderName;
+
+                transaction.RecepientName = currentUserName == transaction.RecepientName
+                    ? string.Empty : transaction.RecepientName;
+            }
+
             return transactions;
         }
 
@@ -59,7 +68,6 @@
             {
                 return false;
             }
-
 
             recepient.Credits += model.Amount;
 

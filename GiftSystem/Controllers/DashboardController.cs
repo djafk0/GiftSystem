@@ -1,6 +1,6 @@
 ﻿namespace GiftSystem.Controllers
 {
-    using System.Security.Claims;
+    using GiftSystem.Infrastructure;
     using GiftSystem.Models;
     using GiftSystem.Services;
     using Microsoft.AspNetCore.Authorization;
@@ -16,7 +16,7 @@
         [Authorize]
         public IActionResult All()
         {
-            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = this.User.Id();
 
             var transactions = this.transactions.AllTransacationsByUser(userId);
 
@@ -24,19 +24,14 @@
         }
 
         [Authorize]
-        public IActionResult Send()
-            => View();
-
-        [Authorize]
-        [HttpPost]
-        public IActionResult Send(TransactionFormModel transaction)
+        public IActionResult Send([FromQuery] TransactionFormModel transaction)
         {
             if (!ModelState.IsValid)
             {
                 return View();
             }
 
-            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = this.User.Id();
 
             var isSent = this.transactions.SendGift(transaction, userId);
 
