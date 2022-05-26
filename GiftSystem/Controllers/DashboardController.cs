@@ -6,6 +6,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
+    [Authorize]
     public class DashboardController : Controller
     {
         private readonly ITransactionService transactions;
@@ -13,7 +14,6 @@
         public DashboardController(ITransactionService transactions)
             => this.transactions = transactions;
 
-        [Authorize]
         public IActionResult All()
         {
             var userId = this.User.Id();
@@ -23,8 +23,8 @@
             return View(transactions);
         }
 
-        [Authorize]
-        public IActionResult Send([FromQuery] TransactionFormModel transaction)
+        [HttpPost]
+        public IActionResult Send(TransactionFormModel transaction)
         {
             if (!ModelState.IsValid)
             {

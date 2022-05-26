@@ -81,9 +81,10 @@
         };
 
         $.ajax({
-            type: "GET",
+            type: "POST",
             url: "/Dashboard/Send",
             data: model,
+            headers: { "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val() },
             success: function(){
                 alert("Successfully sent!")
                 window.location.href = "/Dashboard/All"
