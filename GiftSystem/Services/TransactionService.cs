@@ -27,9 +27,9 @@
                         Amount = t.Amount,
                         Description = t.Description,
                         SenderName = t.SenderName,
-                        RecepientName = t.RecepientName,
+                        RecipientName = t.RecipientName,
                         Date = t.Date,
-                        IsPositive = t.RecepientName == currentUserName
+                        IsPositive = t.RecipientName == currentUserName
                     })
                     .OrderByDescending(t => t.Id)
                     .ToList();
@@ -43,7 +43,7 @@
 
             var transactions = AllTransacations(userId)
                 .Where(t => t.SenderName == currentUserName ||
-                    t.RecepientName == currentUserName)
+                    t.RecipientName == currentUserName)
                 .ToList();
 
             foreach (var transaction in transactions)
@@ -51,8 +51,8 @@
                 transaction.SenderName = currentUserName == transaction.SenderName 
                     ? string.Empty : transaction.SenderName;
 
-                transaction.RecepientName = currentUserName == transaction.RecepientName
-                    ? string.Empty : transaction.RecepientName;
+                transaction.RecipientName = currentUserName == transaction.RecipientName
+                    ? string.Empty : transaction.RecipientName;
             }
 
             return transactions;
@@ -62,14 +62,14 @@
         {
             var currentUser = this.users.GetUserById(userId);
 
-            var recepient = this.users.GetUserByPhoneNumber(model.PhoneNumber);
+            var recipient = this.users.GetUserByPhoneNumber(model.PhoneNumber);
 
-            if (currentUser.Credits < model.Amount || currentUser == recepient)
+            if (currentUser.Credits < model.Amount || currentUser == recipient || recipient == null)
             {
                 return false;
             }
 
-            recepient.Credits += model.Amount;
+            recipient.Credits += model.Amount;
 
             currentUser.Credits -= model.Amount;
 
@@ -77,7 +77,7 @@
             {
                 Amount = model.Amount,
                 Description = model.Description,
-                RecepientName = recepient.Name,
+                RecipientName = recipient.Name,
                 SenderName = currentUser.Name,
                 Date = DateTime.UtcNow.ToLocalTime(),
             };

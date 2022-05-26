@@ -1,6 +1,6 @@
 ﻿namespace GiftSystem.Areas.Admin.Controllers
 {
-    using System.Security.Claims;
+    using GiftSystem.Infrastructure;
     using GiftSystem.Services;
     using Microsoft.AspNetCore.Mvc;
 
@@ -17,7 +17,7 @@
 
         public IActionResult Transactions()
         {
-            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = this.User.Id();
 
             var transactions = this.transactions.AllTransacations(userId);
 

@@ -8,7 +8,7 @@
 
         public string Description { get; set; }
 
-        public string RecepientName { get; set; }
+        public string RecipientName { get; set; }
 
         public string SenderName { get; set; }
 

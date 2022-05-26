@@ -31,7 +31,7 @@ namespace GiftSystem.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Amount = table.Column<decimal>(type: "decimal(5,2)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: true),
-                    RecepientName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    RecipientName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     SenderName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>

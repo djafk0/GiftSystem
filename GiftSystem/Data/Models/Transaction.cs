@@ -17,7 +17,7 @@
 
         [Required]
         [MaxLength(NameMaxLength)]
-        public string RecepientName { get; init; }
+        public string RecipientName { get; init; }
 
         [Required]
         [MaxLength(NameMaxLength)]

@@ -113,7 +113,7 @@ namespace GiftSystem.Data.Migrations
                         .HasMaxLength(300)
                         .HasColumnType("nvarchar(300)");
 
-                    b.Property<string>("RecepientName")
+                    b.Property<string>("RecipientName")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
