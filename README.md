@@ -3,11 +3,14 @@
 After registration in the system, every new user receives 100 credits automatically.
 Upon login, the user should be able to see how many credits they have available in their account and
 should be able to send credits to another user via filling the recipient’s mobile number (with which
-the recipient has been registered in the platform). When sending credits, the user must have the
-option to enter a message or write a wish in the form of a comment.
+the recipient has been registered in the platform).
+
 Every user must be able to see all transactions made from and to them on their Dashboard.
 
 ![image](https://user-images.githubusercontent.com/87133289/170548211-069d800b-94f8-48a7-8bb0-93b268b5ea90.png)
+
+When sending credits, the user must have the
+option to enter a message or write a wish in the form of a comment.
 
 ![image](https://user-images.githubusercontent.com/87133289/170548333-0dabeaec-ebff-42c6-9e51-bedc84a5e8a3.png)
 
