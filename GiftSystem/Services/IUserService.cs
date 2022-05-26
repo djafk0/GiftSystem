@@ -2,6 +2,6 @@
 {
     public interface IUserService
     {
-        IEnumerable<UserServiceModel> GetUsers();
+        IEnumerable<UserServiceModel> GetUsers(string id);
     }
 }

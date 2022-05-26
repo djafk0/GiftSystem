@@ -4,13 +4,33 @@
     ViewData["Title"] = "Users";
 }
 
+<div class="modal fade" id="exampleModalLive" tabindex="-1" aria-labelledby="exampleModalLiveLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLiveLabel">User Profile</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-4 text-center">
+                    <label class="form-label">Phone Number:</label>
+                    <label class="form-label" id="phoneNumber"></label>
+                </div>
+                <div class="mb-4 text-center">
+                    <label class="form-label">Name:</label>
+                    <label class="form-label" id="name"></label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <table class="table table-striped">
     <thead>
         <tr>
             <th scope="col" class="text-center">Email</th>
             <th scope="col" class="text-center">Credits</th>
-            <th scope="col" class="text-center">PhoneNumber</th>
-            <th scope="col" class="text-center">Name</th>
+            <th scope="col"></th>
         </tr>
     </thead>
     <tbody>
@@ -19,9 +39,25 @@
             <tr>
                 <td scope="col" class="text-center">@row.Email</td>
                 <td scope="col" class="text-center">@row.Credits</td>
-                <td scope="col" class="text-center">@row.PhoneNumber</td>
-                <td scope="col" class="text-center">@row.Name</td>
+                <td onclick="viewProfile(this)" id="@row.Id" scope="col" class="text-center">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalLive">
+                        View Profile
+                    </button>
+                </td>
             </tr>
         }
     </tbody>
 </table>
+
+<script type="text/javascript">
+    function viewProfile(ev) {
+        $.ajax({
+            type: "GET",
+            url: `/Admin/Dashboard/Users/${ev.id}`,
+            success: function(data) {
+                document.getElementById("phoneNumber").textContent = data.phoneNumber;
+                document.getElementById("name").textContent = data.name;
+            }
+        });
+    }
+</script>

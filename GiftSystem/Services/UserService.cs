@@ -7,19 +7,30 @@
     {
         private readonly IUserRepository users;
 
-        public UserService(IUserRepository users) 
+        public UserService(IUserRepository users)
             => this.users = users;
 
-        public IEnumerable<UserServiceModel> GetUsers()
-            => this.users.GetAllUsers()
-                .Where(u => !u.Email.StartsWith("admin"))
+        public IEnumerable<UserServiceModel> GetUsers(string id)
+        {
+            if (id == null)
+            {
+                id = string.Empty;
+            }
+
+            var users = this.users.GetAllUsers()
+                .Where(u => !u.Email.StartsWith("admin")
+                    && u.Id.Contains(id))
                 .Select(u => new UserServiceModel
                 {
+                    Id = u.Id,
                     Credits = u.Credits,
                     Email = u.Email,
                     PhoneNumber = u.PhoneNumber,
                     Name = u.Name
                 })
                 .ToList();
+
+            return users;
+        }
     }
 }

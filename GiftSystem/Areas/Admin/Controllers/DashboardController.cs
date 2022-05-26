@@ -24,9 +24,14 @@
             return View(transactions);
         }
 
-        public IActionResult Users()
+        public IActionResult Users(string id = null)
         {
-            var users = this.users.GetUsers();
+            var users = this.users.GetUsers(id);
+
+            if (id != null)
+            {
+                return Json(users.FirstOrDefault());
+            }
 
             return View(users);
         }
