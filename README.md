@@ -1,5 +1,9 @@
 # GiftSystem
 
+| **Roles** |  **Email**  | **Password** |
+|:---------:|:-----------:|--------------|
+|   Admin   | admin@gs.bg |   admin123   |
+
 After registration in the system, every new user receives 100 credits automatically.
 Upon login, the user should be able to see how many credits they have available in their account and
 should be able to send credits to another user via filling the recipient’s mobile number (with which
